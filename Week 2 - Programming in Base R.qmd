@@ -1,0 +1,149 @@
+---
+title: "Week 2 - Programming in Base R"
+format: html
+editor: visual
+---
+
+## Task 1: Basic Vector Practice
+
+##### 1. Assigned pre measurements and post measurements values to create 2 vectors for blood pressure values
+
+```{r}
+pre_bp <- c(120, 151, 125, 126, 115, 132, 132, 129, 134, 139, 127, 122, 127, 135, 133, 128, 147, 138, 140, 132)
+pre_bp
+
+post_bp <- c(127, 145, 135, 122, 115, 122, 123, 126, 126, 129, 132, 146, 120, 114, 121, 120, 128, 120, 133, 115)
+post_bp
+```
+
+##### 2. Assigned names to the vector elements for both pre and post treatments and for patients 1-20
+
+```{r}
+patient <- paste("Patient", 1:20, sep = "_")
+
+names(pre_bp) <- paste("Patient", 1:20, sep = "_")
+pre_bp
+
+names(post_bp) <- paste("Patient", 1:20, sep = "_")
+post_bp
+```
+
+##### 3. Calculated change in blood pressure by subtracting post and pre measurement values and named it "diff_bp"
+
+```{r}
+diff_bp <- pre_bp - post_bp
+diff_bp
+```
+
+##### 4. Calculated average decrease in bp across all patients using the mean function
+
+```{r}
+avg_bp_dec <- mean(diff_bp)
+avg_bp_dec
+```
+
+##### 5. Determined which patients experienced a decrease in bp after treatment (a positive change in bp)
+
+```{r}
+patient_bp_dec <- which(diff_bp > 0)
+names(patient_bp_dec)
+patient_bp_dec
+```
+
+##### 6. Subsetted vector to only return those with a positive change by using vex\[index\], returning the actual values that are greater than 0
+
+```{r}
+ss_pos_change <- diff_bp[diff_bp > 0]
+ss_pos_change
+```
+
+##### 7. Calculated the average decrease in blood pressure where the blood pressure decreased (positive change)
+
+```{r}
+avg_dec_in_bp <- mean(ss_pos_change)
+avg_dec_in_bp
+```
+
+## Task 2: Basic Data Frame Practice
+
+##### 1. Created data frame referencing data from task 1
+
+```{r}
+patient <- 1:20
+pre_bp 
+post_bp
+diff_bp
+
+r_df <- data.frame(patient, pre_bp, post_bp, diff_bp)
+r_df
+```
+
+##### 2. Returned only rows of the data where diff_bp is negative by subsetting
+
+```{r}
+diff_bp_neg <- subset(patient, diff_bp < 0)
+diff_bp_neg
+```
+
+##### 3. Added a new column to data frame corresponding to TRUE if post_bp is less than 120 and FALSE if not
+
+```{r}
+r_df$post_bp
+r_df$post_bp120 <- r_df$post_bp < 120
+r_df
+```
+
+##### 4. Printed out dataframe, r_df
+
+```{r}
+knitr::kable(r_df)
+```
+
+## Task 3: List Practice
+
+##### 1. Created a new data frame with new values, looking similar to data frame from task 2 (including new T/F values)
+
+```{r}
+patient <- 1:10
+pre_plcbo <- c(138, 135, 147, 117, 152, 134, 114, 121, 131, 130)
+post_plcbo <- c(105, 136, 123, 130, 134, 143, 135, 139, 120, 124)
+diff_plcbo <- pre_plcbo - post_plcbo
+
+plcbo_df <- data.frame(patient, pre_plcbo, post_plcbo, diff_plcbo)
+plcbo_df$post_plcbo120 <- plcbo_df$post_plcbo < 120
+plcbo_df
+```
+
+##### 2. Created and stored a list with 2 elements (1st element = treatment, 2nd element = placebo)
+
+```{r}
+treatment <- r_df
+placebo <- plcbo_df
+list3 <- list(treatment = treatment, placebo = placebo)
+list3
+```
+
+##### 3. Accessed only the 1st list using 3 different types of syntax: \$, \[\], and \[\[\]\]
+
+```{r}
+
+example1 <- list3$treatment
+example1
+
+```
+
+```{r}
+bracket <- list3[1]
+bracket
+```
+
+```{r}
+doublebracket <- list3[[1]]
+doublebracket
+```
+
+##### 4. Used 1 line of code to access the pre_bp (actually referred to as "pre_plcbo") column of the placebo frame (2nd element)
+
+```{r}
+list3$placebo$pre_plcbo
+```
